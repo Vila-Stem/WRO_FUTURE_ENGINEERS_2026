@@ -1,2 +1,2 @@
-# VILA-STEM 8
-Engineering book for the WRO championship in the Future Engineers category.
+# WRO 2025 Vila-Stem 8 repository
+
