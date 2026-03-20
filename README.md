@@ -1,2 +1,2 @@
-# WRO_FUTURE_ENGINEERS_2026
+# VILA-STEM 8
 Engineering book for the WRO championship in the Future Engineers category.
