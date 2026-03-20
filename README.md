@@ -35,4 +35,17 @@
 ## HARDWARE
 
 
+
 ### Car movement
+
+
+
+
+
+
+
+
+
+
+
+### Structural design
