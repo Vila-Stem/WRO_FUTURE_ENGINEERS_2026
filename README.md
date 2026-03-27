@@ -49,3 +49,27 @@
 
 
 ### Structural design
+
+
+
+
+
+
+
+
+
+
+## ELECTRONICS AND SENSORS
+
+
+
+
+
+
+
+
+
+### List of components
+
+* HuskyLens
+
