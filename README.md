@@ -71,7 +71,10 @@
 
 ### List of components
 
-* HuskyLens
+* HuskyLens 2
+* Battery 20.999mAh
+* Chassis Kit
+* 3D printed Chassis
 
 
 ### Sensor list
