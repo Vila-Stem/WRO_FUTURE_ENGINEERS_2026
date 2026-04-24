@@ -72,7 +72,7 @@ ESP32
 
 ### List of components
 
-* HuskyLens 2
+* HuskyLens 2 (DFRobot)
 * Battery 20.999mAh
 * Chassis Kit
 * 3D printed Chassis
