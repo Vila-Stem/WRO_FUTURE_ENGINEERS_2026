@@ -50,7 +50,9 @@
 
 ### Structural design
 
-
+Our robot's design consists of a purchased chassis base, but most of the structure is 3D printed. We chose this minimalist and futuristic style because it makes it look more aesthetically pleasing at first glance. We created various structures to better organize the cables and sensors. Although the robot looks large, it's quite agile and weighs only 1 kg.
+Initially, the robot's appearance was different because it originally contained a lidar unit, but we encountered several problems. At first, everything seemed fine; we tested the lidar outside the robot, and it worked perfectly. However, once we installed it, the problems began. The first issue was the lidar's placement. If we put it on top, it read beyond the black walls, so we placed it between the two panels. We knew there would be some blind spots, but at least it wasn't reading more than we wanted. After testing it three times in the field, we realized that the lidar "didn't see" black, but it did see other colors. After much discussion with the program and the robot, we decided that the best course of action was to remove the lidar.
+With its removal, we decided to install three laser sensors on the front of the robot. We custom-made the brackets and later positioned them at a specific angle to prevent them from damaging the walls.
 
 
 
