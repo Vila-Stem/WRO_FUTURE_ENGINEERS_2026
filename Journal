@@ -1,4 +1,26 @@
-This season we've had several serious problems.
-Lidar was one of the most serious issues we faced, as the laser's reflection isn't good against black. We didn't realize this until recently when we started field testing. We had previously tested the lidar outside the robot, and it seemed to work perfectly, so we became overconfident.
-When we saw this problem, we had to react as quickly as possible since the competition is only 20 days away. To solve this problem, we decided to implement new sensors, specifically laser sensors. Since we didn't know how to position them, we considered making a support structure, and what better way than to do it in 3D? It's true that everything took us by surprise, and it was our mistake not to test it earlier, as we wouldn't have had to modify everything now.
-There aren't any other problems as significant as this one. We did have some "secondary" issues, such as not knowing where to place certain electrical connectors, but since there are three sensor heads, it was quick to resolve.
+🛠 Engineering Challenges & Troubleshooting
+During the development of our prototype, we encountered several technical hurdles. Below, we document our most significant challenge and how our team pivoted to a solution.
+
+1. The LiDAR Reflectivity Crisis
+The Problem:
+Our initial navigation strategy relied heavily on LiDAR. While early bench testing (outside the chassis) showed excellent results, we encountered a critical failure during full-field integration: the laser signal absorption on black surfaces. The LiDAR pulses did not reflect reliably off the competition's black walls/elements, leading to significant mapping errors.
+
+The Lesson Learned:
+We fell into the trap of "isolated testing." By not testing the sensor in the final competition environment early enough, we overlooked environmental variables. This taught us the importance of system-level validation early in the design cycle.
+
+The Solution:
+With only 20 days remaining until the competition, we executed an emergency pivot:
+
+Sensor Redesign: We transitioned from a single LiDAR system to a multi-point laser distance sensor array.
+
+Rapid Prototyping: To integrate these new sensors, we designed and 3D-printed custom mounting brackets. This allowed us to iterate on the sensor angles and heights in hours rather than days.
+
+Integration: This change required a complete overhaul of our navigation logic, which we managed through intensive coding sprints.
+
+2. Electronic Layout & Connectivity
+Minor Issues:
+We faced secondary challenges regarding cable management and the placement of electrical connectors.
+
+The Issue: The addition of the new sensor array created "connector clutter," making it difficult to maintain a clean wiring diagram.
+
+The Resolution: By utilizing the three sensor heads as reference points, we redesigned the wire routing to ensure modularity and prevent signal interference.
