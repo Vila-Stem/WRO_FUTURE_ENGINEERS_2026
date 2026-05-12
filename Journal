@@ -17,10 +17,3 @@ Rapid Prototyping: To integrate these new sensors, we designed and 3D-printed cu
 
 Integration: This change required a complete overhaul of our navigation logic, which we managed through intensive coding sprints.
 
-2. Electronic Layout & Connectivity
-Minor Issues:
-We faced secondary challenges regarding cable management and the placement of electrical connectors.
-
-The Issue: The addition of the new sensor array created "connector clutter," making it difficult to maintain a clean wiring diagram.
-
-The Resolution: By utilizing the three sensor heads as reference points, we redesigned the wire routing to ensure modularity and prevent signal interference.
