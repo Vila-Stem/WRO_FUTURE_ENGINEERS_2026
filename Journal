@@ -1,1 +1,4 @@
-
+This season we've had several serious problems.
+Lidar was one of the most serious issues we faced, as the laser's reflection isn't good against black. We didn't realize this until recently when we started field testing. We had previously tested the lidar outside the robot, and it seemed to work perfectly, so we became overconfident.
+When we saw this problem, we had to react as quickly as possible since the competition is only 20 days away. To solve this problem, we decided to implement new sensors, specifically laser sensors. Since we didn't know how to position them, we considered making a support structure, and what better way than to do it in 3D? It's true that everything took us by surprise, and it was our mistake not to test it earlier, as we wouldn't have had to modify everything now.
+There aren't any other problems as significant as this one. We did have some "secondary" issues, such as not knowing where to place certain electrical connectors, but since there are three sensor heads, it was quick to resolve.
