@@ -74,19 +74,19 @@ ESP32
 
 ### List of components
 
-*ESP32-DEVKIT-V1
-*LM2596
-*AMS1117-3.3
-*TB6612FNG
-*VL53L1X
-*TCS34725
-*HUSKYLENS V2
-*SG90
-*DC Motor
-*2S LiPo
-*Resistance 4.7k
-*Capacitor
-*Button
+* ESP32-DEVKIT-V1
+* LM2596
+* AMS1117-3.3
+* TB6612FNG
+* VL53L1X
+* TCS34725
+* HUSKYLENS V2
+* SG90
+* DC Motor
+* 2S LiPo
+* Resistance 4.7k
+* Capacitor
+* Button
 
 
 ### Sensor list
