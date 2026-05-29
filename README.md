@@ -63,7 +63,7 @@ With its removal, we decided to install three laser sensors on the front of the 
 
 ## ELECTRONICS AND SENSORS
 
-ESP32
+
 
 
 
@@ -90,5 +90,8 @@ ESP32
 
 
 ### Sensor list
+
+* VL53L1X
+* TCS34725
 
 * Camera
