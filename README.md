@@ -64,7 +64,7 @@ Initially, the robot's appearance was different because it originally contained 
 With its removal, we decided to install three laser sensors on the front of the robot. We custom-made the brackets and later positioned them at a specific angle to prevent them from damaging the walls.
 
 
-Obstacle Challenge
+# Obstacle Challenge
 
 Para el reto Obstacle Challenge utilizamos los sensores de color, igual que en el Open Challenge. La diferencia principal es que en este caso contamos además con una cámara, que se encarga de detectar los bloques verdes y rojos del recorrido.
 
