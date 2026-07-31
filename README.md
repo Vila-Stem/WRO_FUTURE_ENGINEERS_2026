@@ -64,7 +64,13 @@ Initially, the robot's appearance was different because it originally contained 
 With its removal, we decided to install three laser sensors on the front of the robot. We custom-made the brackets and later positioned them at a specific angle to prevent them from damaging the walls.
 
 
+Obstacle Challenge
 
+Para el reto Obstacle Challenge utilizamos los sensores de color, igual que en el Open Challenge. La diferencia principal es que en este caso contamos además con una cámara, que se encarga de detectar los bloques verdes y rojos del recorrido.
+
+Esa cámara la incorporamos al robot después de la prueba de Denia, así que todavía es una incorporación reciente. Se controla con un ESP32, que es el encargado de procesar las imágenes y comunicarse con el resto del robot.
+
+Al ser una novedad y llevar poco tiempo montada, todavía estamos probándola en las prácticas. Esperamos que funcione bastante bien, pero sabemos que probablemente le queden algunos ajustes pendientes, sobre todo en lo que respecta a la detección de los bloques según la iluminación y la distancia.
 
 
 
