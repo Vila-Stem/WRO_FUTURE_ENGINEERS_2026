@@ -38,7 +38,7 @@
 
 ### Car movement
 
-## Opne Challenge Strategy
+# Open Challenge Strategy
 
 Open Challenge
 For the Open Challenge, we use only color sensors, without any other type of sensor. It works as follows: the robot moves forward and counts each line it passes over, allowing it to determine its location along the course.
