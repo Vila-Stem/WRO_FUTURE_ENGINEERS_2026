@@ -49,7 +49,13 @@ Another important point is that, upon reaching the roundabout, the robot must re
 
 During practice sessions, we spend most of our time adjusting the lines on the track. This is because if the robot moves backward slightly, it might re-read the same line and miscount; we try to minimize this risk by carefully positioning the lines.
 
+# Obstacle Challenge
 
+For the Obstacle Challenge, we use color sensors, just as we do in the Open Challenge. The main difference is that, in this case, we also have a camera responsible for detecting the green and red blocks along the course.
+
+We added this camera to the robot after the Denia trial, so it is a relatively recent addition. It is controlled by an ESP32, which handles image processing and communication with the rest of the robot.
+
+Since it is a new feature and hasn't been installed for long, we are still testing it during practice sessions. We expect it to perform well, though we know some adjustments will likely still be needed—particularly regarding block detection based on lighting conditions and distance.
 
 
 
@@ -64,13 +70,6 @@ Initially, the robot's appearance was different because it originally contained 
 With its removal, we decided to install three laser sensors on the front of the robot. We custom-made the brackets and later positioned them at a specific angle to prevent them from damaging the walls.
 
 
-# Obstacle Challenge
-
-Para el reto Obstacle Challenge utilizamos los sensores de color, igual que en el Open Challenge. La diferencia principal es que en este caso contamos además con una cámara, que se encarga de detectar los bloques verdes y rojos del recorrido.
-
-Esa cámara la incorporamos al robot después de la prueba de Denia, así que todavía es una incorporación reciente. Se controla con un ESP32, que es el encargado de procesar las imágenes y comunicarse con el resto del robot.
-
-Al ser una novedad y llevar poco tiempo montada, todavía estamos probándola en las prácticas. Esperamos que funcione bastante bien, pero sabemos que probablemente le queden algunos ajustes pendientes, sobre todo en lo que respecta a la detección de los bloques según la iluminación y la distancia.
 
 
 
