@@ -38,7 +38,16 @@
 
 ### Car movement
 
+## Opne Challenge Strategy
 
+Open Challenge
+For the Open Challenge, we use only color sensors, without any other type of sensor. It works as follows: the robot moves forward and counts each line it passes over, allowing it to determine its location along the course.
+
+The main issue we face is that the counting sometimes fails, causing it to miscount the lines. To compensate, we always program the robot to account for a few extra lines; this ensures that even if it misses a reading during the run, it still reaches the destination.
+
+Another important point is that, upon reaching the roundabout, the robot must recalibrate its color readings, as the ambient lighting can make the colors appear lighter or darker than they actually are.
+
+During practice sessions, we spend most of our time adjusting the lines on the track. This is because if the robot moves backward slightly, it might re-read the same line and miscount; we try to minimize this risk by carefully positioning the lines.
 
 
 
