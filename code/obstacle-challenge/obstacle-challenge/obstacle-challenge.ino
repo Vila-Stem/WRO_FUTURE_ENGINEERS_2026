@@ -41,7 +41,7 @@
  *
  *  CREATED BY: Vila-Stem 8
  *                                                
- *  LAST MODIFIED: August 31st 2026                                     
+ *  LAST MODIFIED: September 6th 2026                                     
  *                                                                      
  *                                                                      
  *  REPOSITORY: https://github.com/Vila-Stem/WRO_FUTURE_ENGINEERS_2026  
@@ -85,13 +85,17 @@ const int BASE_SPEED = 120;
 /* Huskylens */
 const int HUSKYLENS_ADDR = 0x50;                            ///< HuskyLens 2 I2C address
 const int HUSKYLENS_TIMEOUT_MS = 1000;                      ///< Time it waits for HuskyLens response
-const int HUSKYLENS_ID_GREEN_1 = 1;                         ///< ID assigned to green in HuskyLens
-const int HUSKYLENS_ID_GREEN_2 = 3;                         ///< ID assigned to green in HuskyLens
-const int HUSKYLENS_ID_RED_1 = 2;                           ///< ID assigned to red in HuskyLens
-const int HUSKYLENS_ID_RED_2 = 4;                           ///< ID assigned to red in HuskyLens
+const uint8_t HUSKYLENS_ID_GREEN_1 = 1;                     ///< ID assigned to green in HuskyLens
+const uint8_t HUSKYLENS_ID_GREEN_2 = 3;                     ///< ID assigned to green in HuskyLens
+const uint8_t HUSKYLENS_ID_RED_1 = 2;                       ///< ID assigned to red in HuskyLens
+const uint8_t HUSKYLENS_ID_RED_2 = 4;                       ///< ID assigned to red in HuskyLens
 const int CAM_CLOSE_AREA = 90000;                           ///< Block area (width*height px) that means the object is too close and triggers reverse
-const int CAM_COUNT_NUMBER = 15;                            ///< How many drive loops the camera correction has to be applied
+const int CAM_COUNT_NUMBER = 5;                             ///< How many drive loops the camera correction has to be applied (antes 7)
 const int CAM_CLOSE_NUMBER = 8;                             ///< How many drive loops the block reverse flag has to be up
+const int CAM_GREEN_GAIN = 4;
+const int CAM_RED_GAIN = 8;
+const uint8_t HUSKY_STABLE_COUNT = 2;                       ///< Consecutive detections required
+const unsigned long HUSKY_MEMORY_MS = 250;                  ///< Keep last valid detection
 // ALGORITHM_COLOR_RECOGNITION is defined by the HuskyLens library
 // (value 4). This guard is only a safety net for library versions
 // that do not expose it.
@@ -196,102 +200,113 @@ bool InitHuskyLens() {
  * and picks the largest detected color block and 
  * computes a servo correction.
  * @param none
- * @return true if a valid green/red block was detected
+ * @return true if a valid green/red block was detected and correction worked properly
  * @return false if otherwise
  * @see InitHuskyLens()
  */
 bool RequestHuskyLens() {
-  // Refresh the result cache from the sensor
+
+  // Refresh the result cache from HuskyLens
   huskylens.getResult((eAlgorithm_t)ALGORITHM_COLOR_RECOGNITION);
-  
-  // Check if there are results available for the color recognition algorithm
-  if (!huskylens.available((eAlgorithm_t)ALGORITHM_COLOR_RECOGNITION)) 
+
+  // Check if there are results
+  if (!huskylens.available((eAlgorithm_t)ALGORITHM_COLOR_RECOGNITION))
   {
     return false;
   }
-  
-  // How many color objects are being detected
+
+  // Number of detected objects
   int count = huskylens.getCachedResultNum((eAlgorithm_t)ALGORITHM_COLOR_RECOGNITION);
+
   if (count <= 0) 
   {
     return false;
   }
-  
-  // Find the largest block (the closest one)
+
   int bestIdx = -1;
   int maxArea = 0;
+  uint8_t detected_color = 0;
+  uint8_t detected_id = 0;
+
   for (int i = 0; i < count; i++) 
   {
-    Result* result = huskylens.getCachedResultByIndex((eAlgorithm_t)ALGORITHM_COLOR_RECOGNITION, i);  // Gets the result data of each block by calling it by its ID number
-    if (result) 
+    Result* result = huskylens.getCachedResultByIndex((eAlgorithm_t)ALGORITHM_COLOR_RECOGNITION, i);
+    if (!result) continue;
+
+    // Detect color ID
+    uint8_t id = result->ID;
+    uint8_t color = 0;
+    if (id == HUSKYLENS_ID_GREEN_1 || id == HUSKYLENS_ID_GREEN_2) 
     {
-      int area = result->width * result->height;                // Calculates the block area (width * height)
-      if (area > maxArea)                                       // Checks if the area of this block is bigger than the max. area
-      {
-        maxArea = area;                                         // Saves the biggest area detected
-        bestIdx = i;                                            // Saves the ID number of the biggest area detected
-      }
+      color = 1; // GREEN
+    } 
+    else if (id == HUSKYLENS_ID_RED_1 || id == HUSKYLENS_ID_RED_2) 
+    {
+      color = 2; // RED
+    } 
+    else 
+    {
+      continue;
+    }
+
+    // Check area
+    int area = result->width * result->height;
+    if (area <= 0) continue;
+
+    // Choose the biggest object (closest)
+    if (area > maxArea) 
+    {
+      maxArea = area;
+      bestIdx = i;
+      detected_id = id;
+      detected_color = color;
     }
   }
-  if (bestIdx == -1)                                            // Checks that the "find largest block" system did not failed
+
+  if (bestIdx == -1) 
   {
     return false;
   }
-  
-  // Gets the result data of the biggest area block
+
+  // Get selected result
   Result* result = huskylens.getCachedResultByIndex((eAlgorithm_t)ALGORITHM_COLOR_RECOGNITION, bestIdx);
-  if (!result) 
-  {
+
+  if (!result) {
     return false;
   }
-  
-  // Map HuskyLens learned color ID to our color scheme (1 = GREEN, 2 = RED)
-  int color = 0;
-  if (result->ID == HUSKYLENS_ID_GREEN_1 || result->ID == HUSKYLENS_ID_GREEN_2 )
-  {
-    color = 1;  // GREEN
-  } 
-  else if (result->ID == HUSKYLENS_ID_RED_1 || result->ID == HUSKYLENS_ID_RED_2) 
-  {
-    color = 2;  // RED
-  } 
-  else 
-  {
-    return false; // Unknown color. Failed.
-  }
-  
-  // HuskyLens returns x center (0 left side of the camera screen, 320 right side of the camera screen)
+
+  // Get object position data
   int cx = result->xCenter;
-  int area = result->width * result->height;
-  if (cx <= 0 || cx > 320)    // Validate detection making sure it is between the allowed values
+
+  if (cx <= 0 || cx > 320) 
   {
     return false;
   }
-  
-  // Calculate correction
-  if (color == 1)         // GREEN, negative correction to go left
-  { 
-    cam_correction = -((320 - cx) / 6);
-  } 
-  else if (color == 2)    // RED, positive correction to go right
-  { // RED
-    cam_correction = cx / 6; 
+
+  // Calculate servo correction
+  if (detected_color == 1)      // Green, goes left
+  {
+    cam_correction = -((319 - cx) / CAM_GREEN_GAIN + 30);
   }
-  
+  else if (detected_color == 2) // Red, goes right
+  {
+    cam_correction = cx / CAM_RED_GAIN;
+  }
+
+  // Apply camera correction
   cam_count = CAM_COUNT_NUMBER;
 
-  // Detects if a block is too close to the camera and the ToF Luna frontal sensor has not seen it.
-  // It uses the area of the block to know if it is too big and has to start the reverse manouver.
+  // ---------------------------------------------------------
+  // Detect object too close
+  // ---------------------------------------------------------
+
+  int area = result->width * result->height;
+
   if (area >= CAM_CLOSE_AREA) 
   {
     cam_close = CAM_CLOSE_NUMBER;
   }
-  
-  // Debug output
-  const char* colorName = (color == 1) ? "GREEN" : "RED";
-  Serial.printf("HUSKYLENS: color=%s cx=%d area=%d corr=%d\n", colorName, cx, area, cam_correction);
-  
-  // Retuns true if everything worked properly
+
   return true;
 }
 
@@ -308,7 +323,7 @@ void Drive() {
   uint16_t d;
 
   //debug
-  distance_front = 1000000000;
+  //distance_front = 1000000000;
 
   // Initialize variables for the camera information
   static int count_correction = 0;          // How many drive loops the camera correction has been applied
@@ -344,11 +359,11 @@ void Drive() {
     distance_left = d;
     if (distance_left > 1500) distance_left = 1500;                       // Limit to 1500mm
   }
-  /*d = LunaDistance(LUNA_ADDR[2]);                                       // Front distance sensor
+  d = LunaDistance(LUNA_ADDR[2]);                                       // Front distance sensor
   if (d != 0xFFFF)
   {
     distance_front = d;
-  }*/
+  }
 
   // If front sensor or Huskylens 2 detects an obstacle init rear sequence. This sequence is time based
   if (distance_front < FRONT_REAR_MM || cam_close > 0)
@@ -374,7 +389,7 @@ void Drive() {
     {
       case 1:             // Stops the car for 250 ms (by default)
         travel_sense=0;
-        if (millis() >= rear_phase_until){ rear_phase=2; rear_phase_until = millis() + 1500; }
+        if (millis() >= rear_phase_until){ rear_phase=2; rear_phase_until = millis() + 900; }
         break;
       case 2: 
         travel_sense=2;   // Reverse the car for 1500 ms (by default)
