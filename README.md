@@ -267,7 +267,7 @@ This diagram shows what code needs to be uploaded to the microcontroller.
 
 We have uploaded two videos showing our robot completing each challenge. You can access them via the following links:
 * [Open Challenge](https://youtu.be/gIDQgGI8u58)
-* [Obstacle Challenge](example.com)
+* [Obstacle Challenge](https://www.youtube.com/watch?v=H1E48MxDFis)
 
 
 ## 7. LIST OF COMPONENTS
